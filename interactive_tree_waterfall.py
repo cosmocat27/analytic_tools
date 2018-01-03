@@ -159,13 +159,47 @@ def tree_from_excel(path_to_file, sheet_name):
     
     return base_tree
 
+    
+def navigate_tree(base_tree):
+    # interactively navigate a given tree
+    
+    current_tree = base_tree
+    
+    while True:
+        print()
+        print("choose a path... ")
+        for child in current_tree.get_children():
+            print(child)
+        print("up (go up one level)")
+        print("end (exit the program)")
+        
+        new_path = input(": ")
+        
+        if new_path == "up":
+            if current_tree.get_parent():
+                current_tree = current_tree.get_parent()
+            else:
+                current_tree.plot_self()
+        elif new_path == "end":
+            break
+        else:
+            current_tree = current_tree.children[new_path]
+        
+        if bool(current_tree.children):
+            current_tree.plot_children()
+        else:
+            current_tree.plot_self()
+
 
 if __name__ == '__main__':
     test_tree()
     
-    current_tree = tree_from_excel("Excel_tree_example.xlsx", "Sheet1")
+    base_tree = tree_from_excel("Excel_tree_example.xlsx", "Sheet1")
     
     # plot base tree and children
     
-    current_tree.plot_self()
-    current_tree.plot_children()
+    base_tree.plot_self()
+    base_tree.plot_children()
+    
+    navigate_tree(base_tree)
+
