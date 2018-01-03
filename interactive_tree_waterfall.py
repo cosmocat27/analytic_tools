@@ -66,7 +66,9 @@ class Plot_tree:
         del self.children[child_label]
 
 
-if __name__ == '__main__':
+def test_tree():
+    # test the plot_tree on simple data
+    
     axis_test = [-2, -1, -0, 1, 2]
     values_test = [10, 20, 30, 40, 50]
     
@@ -82,10 +84,13 @@ if __name__ == '__main__':
     print(test_plot_tree.get_children())
     
     
+def tree_from_excel(path_to_file, sheet_name):
+    # construct a plot_tree from excel file
+    
     # read in the values from excel file
-    wb_path = "Excel_tree_example.xlsx"
+    wb_path = path_to_file
     wb = openpyxl.load_workbook(wb_path, data_only=True)
-    ws = wb.get_sheet_by_name("Sheet1")
+    ws = wb.get_sheet_by_name(sheet_name)
     
     c = search_xl(ws, "Hierarchy")
     hier = []
@@ -128,7 +133,6 @@ if __name__ == '__main__':
         cell = ws[cell.column+str(cell.row+1)]
     print(names)
     
-    
     # construct the Plot_tree
     tree_ladder = []
     for i, lvl in enumerate(hier):
@@ -153,8 +157,15 @@ if __name__ == '__main__':
             else:
                 tree_ladder.pop(-1)
     
+    return base_tree
+
+
+if __name__ == '__main__':
+    test_tree()
+    
+    current_tree = tree_from_excel("Excel_tree_example.xlsx", "Sheet1")
     
     # plot base tree and children
     
-    base_tree.plot_self()
-    base_tree.plot_children()
+    current_tree.plot_self()
+    current_tree.plot_children()
