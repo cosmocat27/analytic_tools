@@ -3,6 +3,8 @@
 Created on Tue Jan  2 22:15:43 2018
 
 @author: cosmo
+
+various helper functions for extracting data from excel, etc
 """
 
 import openpyxl
